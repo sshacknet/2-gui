@@ -45,6 +45,21 @@
     <ClCompile Include="GeneratedFiles\qrc_guitest.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="CharString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HTMLparser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StringHashTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Document.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="guitest.h">
@@ -60,6 +75,30 @@
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_guitest.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AVLTree.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StringHashTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HTMLparser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Document.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HTMLElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Process.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
