@@ -1,7 +1,4 @@
 ﻿#pragma once
-
-#include <vector>
-#include "String.h"
 #include "CharString.h"
 
 class HTMLElement
@@ -34,7 +31,11 @@ public:
         _type = from._type;
         return *this;
     }
-    ~HTMLElement() { destory(); };
+    ~HTMLElement()
+    {
+        /*destory();*/
+
+    };
     void destory()
     {
         content.destory();

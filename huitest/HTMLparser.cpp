@@ -2,6 +2,9 @@
 #include <locale>
 #include "CharString.h"
 #include <stdio.h>
+#include <QDebug>
+#include <QFile>
+#include <QDataStream>
 using namespace std;
 
 #define  TITLE 3
@@ -66,7 +69,7 @@ HTMLparser::HTMLparser(string filename)
         init_token();
         token_flag = true;
     }
-
+    qDebug() << "parsering " << QString::fromStdString(filename);
     load(filename);
 }
 
@@ -76,23 +79,29 @@ HTMLparser::HTMLparser(string filename)
  */
 void HTMLparser::load(std::string filename)
 {
-    FILE* fp;
-    fp = fopen(("temp/" + filename).c_str(), "r");
-    if (!fp)
-        throw Error("Can not open" + filename);
-    fseek(fp, 0, SEEK_END);
-    int fileSize = ftell(fp);
-    char* buf = new char[fileSize + 1];
-    memset(buf, 0, fileSize + 1);
-
-    fseek(fp, 0, SEEK_SET);
-    fread(buf, sizeof(char), fileSize, fp);
-    fclose(fp);
-
-    std::wstring wDst = Conver_GBK.from_bytes(buf);
-    delete[] buf;
-    buf = nullptr;
+//    FILE* fp;
+//    fp = fopen(("temp/" + filename).c_str(), "r");
+//    if (!fp)
+//        throw Error("Can not open" + filename);
+//    fseek(fp, 0, SEEK_END);
+//    int fileSize = ftell(fp);
+//    char* buf = new char[fileSize+1];
+//    memset(buf, 0, fileSize + 1);
+//
+//    fseek(fp, 20, SEEK_SET);
+//    fread(buf, sizeof(char), fileSize, fp);
+//    fclose(fp);
+//
+//    std::wstring wDst = Conver_GBK.from_bytes(buf);
+//    delete[] buf;
+//    buf = nullptr;
+    QFile f(QString::fromStdString("temp/" + filename));
+    if (!f.open(QIODevice::ReadOnly))
+        throw Error("cant open html file");
+    QDataStream stream(&f);
+    auto wDst = QString(f.readAll()).toStdWString();
     html = String(wDst);
+
 }
 
 /**
@@ -100,7 +109,6 @@ void HTMLparser::load(std::string filename)
  */
 void HTMLparser::toknize()
 {
-    //cout << "网页长度: " << html.size() << endl;
     String t;
     wchar_t* __html = html.c_str();
     wchar_t* buffer;
@@ -167,14 +175,6 @@ void HTMLparser::toknize()
                         if (result.size() > 400)
                             return;
                     }
-                    else
-                    {
-                        //html标签匹配错误未闭合
-//                        cout << "Warning: 不匹配的标签" << endl;
-//                        cout << "当前标签: ";
-//                        e.type.output();
-//                        cout << endl;
-                    }
                 }
             }
 
@@ -186,26 +186,9 @@ void HTMLparser::toknize()
     {
         e.what();
     }
+
 }
 
-
-/**
- * \brief 预处理html文本，除去换行符及tab
- */
-void HTMLparser::standardized()
-{
-//    for (int i = 0; i < html.size(); i++)
-//    {
-//        if (html[i] == L'\n')
-//        {
-//            html[i] = L' ';
-//        }
-//        if (html[i] == L'\t')
-//        {
-//            html[i] = L' ';
-//        }
-//    }
-}
 
 /**
  * \brief 判断该html节点是否是自闭合的

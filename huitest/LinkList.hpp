@@ -6,14 +6,14 @@
 #include "Error.h"
 
 template <typename ElemType>
-class Node
+class LinkListNode
 {
 public:
     ElemType _data;
 
-    std::shared_ptr<Node<ElemType>> _next;
+    std::shared_ptr<LinkListNode<ElemType>> _next;
 
-    Node(ElemType data) : _data(data)
+    LinkListNode(ElemType data) : _data(data)
     {
         _next = nullptr;
     };
@@ -32,8 +32,8 @@ private:
 
     unsigned int _size;
 public:
-    std::shared_ptr<Node<ElemType>> head;
-    std::shared_ptr<Node<ElemType>> end;
+    std::shared_ptr<LinkListNode<ElemType>> head;
+    std::shared_ptr<LinkListNode<ElemType>> end;
 
     LinkList(): head(nullptr), _size(0), end(nullptr) { }
 
@@ -65,12 +65,11 @@ ElemType& LinkList<ElemType>::operator[](unsigned int index)
 
 /**
  * \brief 插入数据到链表末尾
- * \param data 
  */
 template <typename ElemType>
 void LinkList<ElemType>::insert(ElemType data)
 {
-    std::shared_ptr<Node<ElemType>> ins = std::make_shared<Node<ElemType>>(data);
+    std::shared_ptr<LinkListNode<ElemType>> ins = std::make_shared<LinkListNode<ElemType>>(data);
     _size++;
     if (head == nullptr)
     {
@@ -89,8 +88,7 @@ void LinkList<ElemType>::push_back(ElemType data)
 }
 
 /**
- * \brief 获取链表的大小
- * \return 
+ * \brief 获取链表的大小 
  */
 template <typename ElemType>
 unsigned int LinkList<ElemType>::size() const

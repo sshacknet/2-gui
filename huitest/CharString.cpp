@@ -3,7 +3,8 @@
 #include <string>
 using std::cout;
 using std::endl;
-String::String( CharType* str): tok_point(0)
+
+String::String(CharType* str): tok_point(0)
 {
     int size = (str ? wcslen(str) + 1 : 1);
     data = new CharType[size];
@@ -16,6 +17,7 @@ String::String( CharType* str): tok_point(0)
         data[0] = '\0';
     }
 }
+
 String::String(std::wstring str): tok_point(0)
 {
     int size = str.size() + 1;
@@ -229,7 +231,7 @@ String String::strtok(CharType delim, bool first)
                 break;
             }
         }
-        
+
 
         String tmp;
         if (i == size() && tok_point < size() && end == 0)

@@ -15,6 +15,9 @@ public:
 };
 
 
+/**
+ * \brief 文档链表类，使用链表存储关键词的出现信息
+ */
 class Document
 {
 public:
@@ -25,11 +28,12 @@ public:
         word = doc.word;
         documents = doc.documents;
     }
-
     Document() = default;
     Document(String word): word(word) {}
     LinkList<QueryInfo> documents;
 
+    void add(int urlid);
+    void edit(int urlid, int occurtimes);
     void update(int urlid)
     {
         if (documents.contains(QueryInfo(urlid)))
@@ -51,11 +55,17 @@ public:
         }
     }
 
+    /*
+     * 重载运算符，以便能放入AVLTree中
+     */
     inline bool operator==(Document doclist) const { return (word == doclist.word); }
     inline bool operator>(Document doclist) const { return (word > doclist.word); }
     inline bool operator<(Document doclist) const { return (word < doclist.word); }
 };
 
+/**
+ * \brief 倒排文档，将关键字以键值对的形式存储在AVLTree中
+ */
 class InvertedIndexDocument
 {
 public:
@@ -70,9 +80,4 @@ private:
     AVLTree<Document> documenttree;
 };
 
-/*
- *  InvertedIndexDocument
- *  将关键字以键值对的形式存储在AVLTree中
- *  
- *
- */
+

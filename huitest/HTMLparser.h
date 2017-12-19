@@ -2,14 +2,14 @@
 
 #include "HTMLElement.h"
 #include "LinkList.hpp"
-#include <stack>
+#include "Stack.hpp"
 #include "CharString.h"
 
 class HTMLparser
 {
 private:
     String html;
-    std::stack<HTMLElement> doms;
+    Stack<HTMLElement> doms;
     LinkList<HTMLElement> result;
     std::string _filename;
     
@@ -19,8 +19,6 @@ public:
     void load(std::string filename);
 
     void toknize();
-
-    void standardized();
 
     static bool is_not_paired(HTMLElement e);
 

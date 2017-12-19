@@ -2,25 +2,19 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
+#include <QDebug>
 class Error
 {
 public:
-
-    std::string _msg;
-
-
-    Error(const std::string msg)
-    {
-        _msg = msg;
-    }
-
+    std::string msg;
+    Error(const std::string msg): msg(msg) {}
     Error() = default;
-
     void what();
 };
 
 inline void Error::what()
 {
-    std::cout << "Error message: [" << _msg << "]" << std::endl;;
+    qDebug() << "Error message: [" << QString::fromStdString(msg) << "]";
     abort();
+    system("pause");
 }

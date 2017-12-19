@@ -1,4 +1,4 @@
-#include "guitest.h"
+#include "Gui.h"
 #include <QtWidgets/QApplication>
 #include <QTextCodec>
 #include <QDebug>
@@ -9,6 +9,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     
     setlocale(LC_ALL, "chs");
+    config conf;
+    Process::setconfig(conf);
     Process::init();
     Process::process();
     qDebug() << "process complete!" << endl;

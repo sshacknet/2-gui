@@ -16,6 +16,7 @@ public:
 
 /*
  * 二叉平衡树，使用shared_ptr进行自动内存管理
+ * **注意，该容器放置的键类型应重载了 == 和 < 或 > 操作符**
  */
 template <class KeyType>
 class AVLTree
@@ -31,8 +32,9 @@ public:
     std::shared_ptr<AVLTreeNode<KeyType>> search(KeyType key);//搜索一关键字
     inline int height() { return (root) ? root->height : 0; }//二叉树高度
     inline std::shared_ptr<AVLTreeNode<KeyType>> getRoot() { return root; }
+
 private:
-    std::shared_ptr<AVLTreeNode<KeyType>> search(std::shared_ptr<AVLTreeNode<KeyType>>& tree, KeyType& key);
+    std::shared_ptr<AVLTreeNode<KeyType>> search(std::shared_ptr<AVLTreeNode<KeyType>>& tree, KeyType& key);//搜索一关键字
     inline int height(std::shared_ptr<AVLTreeNode<KeyType>> node) { return (node) ? node->height : 0; }
     
 
@@ -45,6 +47,9 @@ private:
     std::shared_ptr<AVLTreeNode<KeyType>> leftRightRotate(std::shared_ptr<AVLTreeNode<KeyType>> node);
 };
 
+/*
+ * 插入元素
+ */
 template <class KeyType>
 std::shared_ptr<AVLTreeNode<KeyType>> AVLTree<KeyType>::insert(std::shared_ptr<AVLTreeNode<KeyType>>& tree, KeyType key)
 {
@@ -54,7 +59,14 @@ std::shared_ptr<AVLTreeNode<KeyType>> AVLTree<KeyType>::insert(std::shared_ptr<A
     }
     else if (key < tree->key)
     {
+        /*
+         * 往左子树插
+         */
         tree->lchild = insert(tree->lchild, key);
+
+        /*
+         * 如果不平衡，进行旋转
+         */
         if (height(tree->lchild) - height(tree->rchild) == 2)
         {
             if (key < tree->lchild->key)
@@ -69,7 +81,13 @@ std::shared_ptr<AVLTreeNode<KeyType>> AVLTree<KeyType>::insert(std::shared_ptr<A
     }
     else if (key > tree->key)
     {
+        /*
+        * 往右子树插
+        */
         tree->rchild = insert(tree->rchild, key);
+        /*
+        * 如果不平衡，进行旋转
+        */
         if (height(tree->rchild) - height(tree->lchild) == 2)
         {
             if (key > tree->rchild->key)
@@ -92,6 +110,11 @@ void AVLTree<KeyType>::insert(KeyType key)
     insert(root, key);
 }
 
+/**
+ * \brief 查找元素
+ * \param key 目标键值
+ * \return 指向目标节点的指针
+ */
 template <class KeyType>
 std::shared_ptr<AVLTreeNode<KeyType>> AVLTree<KeyType>::search(KeyType key)
 {
@@ -110,6 +133,12 @@ std::shared_ptr<AVLTreeNode<KeyType>> AVLTree<KeyType>::search(KeyType key)
     return nullptr;
 }
 
+/**
+ * \brief 在当前节点为根的数下查找元素
+ * \param tree 当前节点
+ * \param key 目标键值
+ * \return 指向目标节点的指针
+ */
 template <class KeyType>
 std::shared_ptr<AVLTreeNode<KeyType>> AVLTree<KeyType>::search(std::shared_ptr<AVLTreeNode<KeyType>>& tree, KeyType& key)
 {
@@ -127,6 +156,11 @@ std::shared_ptr<AVLTreeNode<KeyType>> AVLTree<KeyType>::search(std::shared_ptr<A
     return nullptr;
 }
 
+/**
+ * \brief 当前节点的左左子树超高，进行旋转
+ * \param node 当前节点
+ * \return 新的当前节点
+ */
 template <class KeyType>
 std::shared_ptr<AVLTreeNode<KeyType>> AVLTree<KeyType>::
 leftLeftRotate(std::shared_ptr<AVLTreeNode<KeyType>> node)
@@ -143,6 +177,11 @@ leftLeftRotate(std::shared_ptr<AVLTreeNode<KeyType>> node)
     return k;
 }
 
+/**
+* \brief 当前节点的右右子树超高，进行旋转
+* \param node 当前节点
+* \return 新的当前节点
+*/
 template <class KeyType>
 std::shared_ptr<AVLTreeNode<KeyType>> AVLTree<KeyType>::
 rightRightRotate(std::shared_ptr<AVLTreeNode<KeyType>> node)
@@ -159,6 +198,11 @@ rightRightRotate(std::shared_ptr<AVLTreeNode<KeyType>> node)
     return k;
 }
 
+/**
+* \brief 当前节点的右左子树超高，进行旋转（两次）
+* \param node 当前节点
+* \return 新的当前节点
+*/
 template <class KeyType>
 std::shared_ptr<AVLTreeNode<KeyType>> AVLTree<KeyType>::
 rightLeftRotate(std::shared_ptr<AVLTreeNode<KeyType>> node)
@@ -168,6 +212,11 @@ rightLeftRotate(std::shared_ptr<AVLTreeNode<KeyType>> node)
     return rightRightRotate(node);
 }
 
+/**
+* \brief 当前节点的左右子树超高，进行旋转（两次）
+* \param node 当前节点
+* \return 新的当前节点
+*/
 template <class KeyType>
 std::shared_ptr<AVLTreeNode<KeyType>> AVLTree<KeyType>::
 leftRightRotate(std::shared_ptr<AVLTreeNode<KeyType>> node)
